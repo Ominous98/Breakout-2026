@@ -107,6 +107,7 @@ MonoBehaviour:
   blocksForSpeedInc2: 12
   currentSpeed: 0
   blocksBroken: 0
+  projectileLinePrefab: {fileID: 5907237676247750931, guid: c67be927583ef4c86845d6035389993c, type: 3}
 --- !u!50 &454180825383300508
 Rigidbody2D:
   serializedVersion: 4
