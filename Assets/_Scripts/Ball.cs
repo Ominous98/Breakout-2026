@@ -18,8 +18,11 @@ public class Ball : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool maxSpeedReached = false;
-    
 
+    // Optional: assign a ProjectileLine prefab here (an empty GameObject with LineRenderer + ProjectileLine script)
+    // If assigned, Launch() will instantiate it as a child so the ball has a trail.
+    public GameObject projectileLinePrefab;
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -85,5 +88,22 @@ public class Ball : MonoBehaviour
         Vector3 speed = Vector3.up + Vector3.right;
         speed = speed.normalized;
         rb.velocity = speed * startSpeed;
+
+        // If there's a ProjectileLine component on a child (or attached), tell it to start drawing.
+        ProjectileLine pl = GetComponentInChildren<ProjectileLine>();
+
+        // If no existing ProjectileLine and a prefab is assigned, instantiate it as a child
+        if (pl == null && projectileLinePrefab != null)
+        {
+            GameObject plObj = Instantiate(projectileLinePrefab, transform.position, Quaternion.identity);
+            plObj.transform.SetParent(transform);
+            plObj.transform.localPosition = Vector3.zero;
+            pl = plObj.GetComponent<ProjectileLine>();
+        }
+
+        if (pl != null)
+        {
+            pl.StartDrawing(rb);
+        }
     }
 }
